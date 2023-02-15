@@ -186,10 +186,11 @@ define(['jquery', 'jquery-ui/droppable', 'TYPO3/CMS/Backend/LayoutModule/DragDro
         // the negative value of the content element after where it should be moved
         targetPid = 0 - parseInt(targetFound);
       }
-      var $closestElementWithLanguage = $draggableElement || $droppableElement.closest('[data-language-uid]');
-      var language = parseInt($closestElementWithLanguage.data('language-uid'));
-      if (language !== -1) {
-        language = parseInt($droppableElement.closest('[data-language-uid]').data('language-uid'));
+      var language = ($draggableElement || $droppableElement).closest('[data-language-uid]').data('language-uid');
+      var $columnContainer = $droppableElement.closest('[data-colpos]');
+      // If colpos is a string then the element is a container element, then use its language.
+      if (typeof $columnContainer.data('colpos') === 'string') {
+        language = $columnContainer.parents('[data-language-uid]').data('language-uid');
       }
       var colPos = 0;
       if (targetPid !== 0) {
